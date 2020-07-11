@@ -17,10 +17,15 @@
   $stmtcmt->execute();
   $cmResult = $stmtcmt->fetchAll();
 
-  $authorId = $cmResult[0]['author_id'];
-  $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
-  $stmtau->execute();
-  $auResult = $stmtau->fetchAll();
+  $auResult = [];
+  if ($cmResult) {
+    foreach ($cmResult as $key => $value) {
+      $authorId = $cmResult[$key]['author_id'];
+      $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
+      $stmtau->execute();
+      $auResult[] = $stmtau->fetchAll();
+    }
+  }
 
   if ($_POST) {
     $comment = $_POST['comment'];
@@ -39,7 +44,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Widgets</title>
+  <title>Blog Detail</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -82,13 +87,21 @@
             <!-- /.card-body -->
             <div class="card-footer card-comments">
               <div class="card-comment">
-                <div class="comment-text" style="margin-left:0px !important">
-                  <span class="username">
-                    <?php echo $auResult[0]['name']; ?>
-                    <span class="text-muted float-right"><?php echo $cmResult[0]['created_at']; ?></span>
-                  </span><!-- /.username -->
-                  <?php echo $cmResult[0]['content']; ?>
-                </div>
+                <?php if ($cmResult) {?>
+                  <div class="comment-text" style="margin-left:0px !important">
+                    <?php foreach ($cmResult as $key => $value) { ?>
+                      <span class="username">
+                        <?php print_r($auResult[$key][0]['name']); ?>
+                        <span class="text-muted float-right"><?php echo $value['created_at']; ?></span>
+                      </span><!-- /.username -->
+                      <?php echo $value['content']; ?><br>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                <?php
+                }
+                ?>
                 <!-- /.comment-text -->
               </div>
               <!-- /.card-comment -->
