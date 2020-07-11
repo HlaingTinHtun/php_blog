@@ -31,7 +31,7 @@ if ($_POST) {
 ?>
 
 
-<?php include('header.html'); ?>
+<?php include('header.php'); ?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
