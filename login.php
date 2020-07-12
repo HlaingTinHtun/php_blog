@@ -10,6 +10,7 @@ if ($_POST) {
 
   $stmt->bindValue(':email',$email);
   $stmt->execute();
+
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
   if ($user) {
@@ -48,7 +49,7 @@ if ($_POST) {
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Blog</b></a>
+    <a href="#"><b>Blog</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
