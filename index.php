@@ -67,7 +67,7 @@
               <div class="card card-widget">
                 <div class="card-header">
                   <div style="text-align:center !important;float:none" class="card-title">
-                    <h4><?php echo $value['title']?></h4>
+                    <h4><?php echo escape($value['title'])?></h4>
                   </div>
                 </div>
                 <!-- /.card-header -->

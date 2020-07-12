@@ -18,3 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     unset($_SESSION['_token']);
   }
 }
+
+/**
+ * Escapes HTML for output
+ *
+ */
+function escape($html) {
+	return htmlspecialchars($html, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+}
