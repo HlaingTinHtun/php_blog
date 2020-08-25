@@ -8,6 +8,11 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
   header('Location: login.php');
 }
 
+// အရင်ဆုံး search form ကနေပို့လိုက်တဲ့ search key လေးကို cookie ထဲမှာ save လုပ်ပြီးသိမ်းထားလိုက်ပါတယ်။
+if ($_POST['search']) {
+  setcookie('search',$_POST['search'], time() + (86400 * 30), "/");
+}
+
 ?>
 
 
@@ -31,7 +36,8 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                 $numOfrecs = 5;
                 $offset = ($pageno - 1) * $numOfrecs;
 
-                if (empty($_POST['search'])) {
+                //ပြီးရင် အောက်မှာ search key ရှိမရှိ စစ်ရတဲ့ နေရာမှာ cookie ထဲက search key ရှိမရှိကိုပါ ထပ်စစ်ပါမယ်။ && !isset($_COOKIE['search']) မရှိရင်တော့ record အကုန်ပြပြီး ရှိရင်တော့ အောက်က else condition ထဲရောက်ပြီး search နဲ့ pagination တွဲပြီးတော့ အလုပ်လုပ်နိုင်သွားပါလိမ့်မယ်။
+                if (empty($_POST['search']) && !isset($_COOKIE['search'])) {
                   $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
                   $stmt->execute();
                   $rawResult = $stmt->fetchAll();
@@ -42,7 +48,8 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                   $stmt->execute();
                   $result = $stmt->fetchAll();
                 }else{
-                  $searchKey = $_POST['search'];
+                  //အောက်က search key ကိုတော့ cookie ထဲက value assign လုပ်ပေးလိုက်ပါမယ်
+                  $searchKey = $_COOKIE['search'];
                   $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
                   $stmt->execute();
                   $rawResult = $stmt->fetchAll();
