@@ -1,8 +1,8 @@
 <?php
 
 define('MYSQL_USER','root');
-define('MYSQL_PASSWORD','');
-define('MYSQL_HOST','localhost');
+define('MYSQL_PASSWORD','secret123');
+define('MYSQL_HOST','127.0.0.1');
 define('MYSQL_DATABASE','blog');
 
 $options = array(

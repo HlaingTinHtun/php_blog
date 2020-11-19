@@ -14,7 +14,7 @@ if ($_SESSION['role'] != 1) {
 if ($_POST['search']) {
   setcookie('search',$_POST['search'], time() + (86400 * 30), "/");
 }else{
-  if ($_GET['pageno']) {
+  if (empty($_GET['pageno'])) {
     unset($_COOKIE['search']); 
     setcookie('search', null, -1, '/'); 
   }
